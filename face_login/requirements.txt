@@ -2,7 +2,7 @@ build-essential cmake
 libgtk-3-dev
 libboost-all-dev
 asgiref==3.3.1
-astroid==2.4.2
+
 certifi==2020.12.5
 click==7.1.2
 colorama==0.4.4
