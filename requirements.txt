@@ -1,4 +1,4 @@
-build-essential cmake
+cmake
 libgtk-3-dev
 libboost-all-dev
 asgiref==3.3.1
