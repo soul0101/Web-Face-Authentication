@@ -1,0 +1,189 @@
+{% load static %}
+{% comment %} {% if form.subject.errors %}
+    <ol>
+    {% for error in form.subject.errors %}
+        <li><strong>{{ error|escape }}</strong></li>
+    {% endfor %}
+    </ol>
+{% endif %} {% endcomment %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel = "stylesheet" href = "{%static 'sign_up.css'%}"> 
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+
+    {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      </div>
+    {% endfor %}
+    {% endif %} 
+
+
+
+    <form method = "post" action = "/sign_up" style="border:1px solid #ccc">
+    {% csrf_token %}
+      <div class="container">
+        <h1>Sign Up</h1>
+        <p>Please fill in this form to create an account.</p>
+        <hr>
+{% comment %} 
+        {% for field in form %}
+          <label for="{{ field.label_tag }}"><b>{{field.label}}</b></label>
+          <input type="{{field.type}}" placeholder="{{field.help_text}}" name="{{field.label_tag}}" required>
+        {% endfor %} {% endcomment %}
+
+        {% for field in form.visible_fields %}
+        <div class="fieldWrapper">
+            {{ field.label_tag }} {{ field }}
+            {% if field.help_text %}
+            <p class="help">{{ field.help_text|safe }}</p>
+            {% endif %}
+            {% for error in field.errors %}
+              <p style="color: red">{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        
+
+        <label for="input_face">Face Encoding</label>
+        {% comment %} <input type="text" placeholder="Face Encoding" name="input_face" required> {% endcomment %}
+        
+        <input type="text" accept="image/png" name="input_face" id="input_face">
+
+    
+        <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
+    
+        <div class="clearfix">
+          <button type="button" class="cancelbtn">Cancel</button>
+          <button type="submit" class="signupbtn">Sign Up</button>
+        </div>
+      </div>
+    </form>
+
+
+    <div class="contentarea">
+      <h1>
+          Using Javascript to capture Photo
+      </h1>
+      <div class="camera">
+          <video id="video">Video stream not available.</video>
+      </div>
+      <div><button id="startbutton">Take photo</button></div>
+      
+      <canvas id="canvas"></canvas>
+      <div class="output">
+          <img id="photo" alt="The screen capture will appear in this box."> 
+          <p id="printresult"></p>
+      </div>
+    </div>
+
+
+
+    <!-- Optional JavaScript -->
+      <script>
+      /* JS comes here */
+      (function() {
+
+          var width = 320; // We will scale the photo width to this
+          var height = 0; // This will be computed based on the input stream
+
+          var streaming = false;
+
+          var video = null;
+          var canvas = null;
+          var photo = null;
+          var startbutton = null;
+
+          function startup() {
+              video = document.getElementById('video');
+              canvas = document.getElementById('canvas');
+              photo = document.getElementById('photo');
+              startbutton = document.getElementById('startbutton');
+
+              navigator.mediaDevices.getUserMedia({
+                      video: true,
+                      audio: false
+                  })
+                  .then(function(stream) {
+                      video.srcObject = stream;
+                      video.play();
+                  })
+                  .catch(function(err) {
+                      console.log("An error occurred: " + err);
+                  });
+
+              video.addEventListener('canplay', function(ev) {
+                  if (!streaming) {
+                      height = video.videoHeight / (video.videoWidth / width);
+
+                      if (isNaN(height)) {
+                          height = width / (4 / 3);
+                      }
+
+                      video.setAttribute('width', width);
+                      video.setAttribute('height', height);
+                      canvas.setAttribute('width', width);
+                      canvas.setAttribute('height', height);
+                      streaming = true;
+                  }
+              }, false);
+
+              startbutton.addEventListener('click', function(ev) {
+                  takepicture();
+                  ev.preventDefault();
+              }, false);
+
+              clearphoto();
+          }
+
+
+          function clearphoto() {
+              var context = canvas.getContext('2d');
+              context.fillStyle = "#AAA";
+              context.fillRect(0, 0, canvas.width, canvas.height);
+
+              var data = canvas.toDataURL('image/png');
+              photo.setAttribute('src', data);
+          }
+
+          function takepicture() {
+              var context = canvas.getContext('2d');
+              if (width && height) {
+                  canvas.width = width;
+                  canvas.height = height;
+                  context.drawImage(video, 0, 0, width, height);
+
+                  var data = canvas.toDataURL('image/png');
+                  photo.setAttribute('src', data);
+                  document.getElementById("input_face").setAttribute('value', data);
+
+              } else {
+                  clearphoto();
+              }
+          }
+
+          window.addEventListener('load', startup, false);
+      })();
+    </script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
+
