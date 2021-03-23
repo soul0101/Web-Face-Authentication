@@ -1,3 +1,4 @@
+cmake == 0.7.1
 libgtk-3-dev
 libboost-all-dev
 libsm6

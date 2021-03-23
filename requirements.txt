@@ -1,5 +1,4 @@
 boost==0.1
-cmake==3.6.3
 boost-py
 face_recognition
 dlib>=19.3.0
