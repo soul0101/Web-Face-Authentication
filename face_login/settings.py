@@ -27,7 +27,7 @@ SECRET_KEY = '2n+$!u8u5fvbudzz&yyl@0m6*z%cd#o*al4^-0l2z1o6-)t#pf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'https://face-login0101.herokuapp.com/']
 
 
 # Application definition
