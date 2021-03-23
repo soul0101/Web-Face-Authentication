@@ -4,3 +4,5 @@ libsm6
 libxrender1
 libfontconfig1
 libice6
+boost
+boost-python --with-python3
