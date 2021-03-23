@@ -47,7 +47,7 @@ WORKDIR /app
 COPY . /app
 
 
-RUN python manage.py collectstatic --noinput
+# RUN python manage.py collectstatic --noinput
 
 
 # Creates a non-root user and adds permission to access the /app folder
