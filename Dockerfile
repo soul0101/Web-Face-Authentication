@@ -1,5 +1,5 @@
 # For more information, please refer to https://aka.ms/vscode-docker-python
-FROM python:3.8-slim-buster
+FROM python:3.6-slim-buster
 
 RUN apt-get -y update
 RUN apt-get install -y --fix-missing \
