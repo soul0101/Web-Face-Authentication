@@ -13,7 +13,8 @@
 
     <title>Hello, world!</title>
   </head>
-  <body>
+  <body">
+    {% comment %} <img src="https://source.unsplash.com/random/1920x1080" id="bg" alt=""> {% endcomment %}
 
     {% if messages %}
     {% for message in messages %}
@@ -28,7 +29,7 @@
 
 
 
-    <form method = "post" action = "/sign_up" style="border:1px solid #ccc">
+    <form autocomplete="off" method = "post" action = "/sign_up" style="border:1px solid #ccc">
     {% csrf_token %}
       <div class="container">
         <h1>Sign Up</h1>
@@ -38,7 +39,7 @@
         <label for="name"><b>Name</b></label>
         <input type="text" placeholder="Enter name" name="name" required>
 
-        <label for="username"><b>Email</b></label>
+        <label for="username"><b>Username</b></label>
         <input type="text" placeholder="Enter Username" name="username" required>
     
         <label for="psw"><b>Password</b></label>
@@ -67,9 +68,6 @@
 
 
     <div class="contentarea">
-      <h1>
-          Using Javascript to capture Photo
-      </h1>
       <div class="camera">
           <video id="video">Video stream not available.</video>
       </div>
@@ -176,194 +174,3 @@
   </body>
 </html>
 
-
-
-
-{% comment %} <!DOCTYPE html>
-<html lang="en">
-<head>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <link rel = "stylesheet" href = "{%static 'sign_up.css'%}">  
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <title>Document</title>
-</head>
-<body>
-
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Features</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Pricing</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-  {% comment %} {% if messages %}
-    {% for message in messages %}
-    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-    {{ message }}
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    </div>
-    {% endfor %}
-  {% endif %}
-  <div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  </div>
-
-
-
-  <form method = "post" action = "/sign_up" style="border:1px solid #ccc">
-  {% csrf_token %}
-    <div class="container">
-      <h1>Sign Up</h1>
-      <p>Please fill in this form to create an account.</p>
-      <hr>
-  
-      <label for="name"><b>Name</b></label>
-      <input type="text" placeholder="Enter name" name="name" required>
-
-      <label for="email"><b>Email</b></label>
-      <input type="text" placeholder="Enter Email" name="email" required>
-  
-      <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" required>
-  
-      <label for="psw-repeat"><b>Repeat Password</b></label>
-      <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
-  
-      <label>
-        <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
-      </label>
-  
-      <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
-  
-      <div class="clearfix">
-        <button type="button" class="cancelbtn">Cancel</button>
-        <button type="submit" class="signupbtn">Sign Up</button>
-      </div>
-    </div>
-  </form>
-
-
-  <div class="contentarea">
-    <h1>
-        Using Javascript to capture Photo
-    </h1>
-    <div class="camera">
-        <video id="video">Video stream not available.</video>
-    </div>
-    <div><button id="startbutton">Take photo</button></div>
-    
-    <canvas id="canvas"></canvas>
-    <div class="output">
-        <img id="photo" alt="The screen capture will appear in this box."> 
-    </div>
-  </div>
-
-  <script>
-    /* JS comes here */
-    (function() {
-
-        var width = 320; // We will scale the photo width to this
-        var height = 0; // This will be computed based on the input stream
-
-        var streaming = false;
-
-        var video = null;
-        var canvas = null;
-        var photo = null;
-        var startbutton = null;
-
-        function startup() {
-            video = document.getElementById('video');
-            canvas = document.getElementById('canvas');
-            photo = document.getElementById('photo');
-            startbutton = document.getElementById('startbutton');
-
-            navigator.mediaDevices.getUserMedia({
-                    video: true,
-                    audio: false
-                })
-                .then(function(stream) {
-                    video.srcObject = stream;
-                    video.play();
-                })
-                .catch(function(err) {
-                    console.log("An error occurred: " + err);
-                });
-
-            video.addEventListener('canplay', function(ev) {
-                if (!streaming) {
-                    height = video.videoHeight / (video.videoWidth / width);
-
-                    if (isNaN(height)) {
-                        height = width / (4 / 3);
-                    }
-
-                    video.setAttribute('width', width);
-                    video.setAttribute('height', height);
-                    canvas.setAttribute('width', width);
-                    canvas.setAttribute('height', height);
-                    streaming = true;
-                }
-            }, false);
-
-            startbutton.addEventListener('click', function(ev) {
-                takepicture();
-                ev.preventDefault();
-            }, false);
-
-            clearphoto();
-        }
-
-
-        function clearphoto() {
-            var context = canvas.getContext('2d');
-            context.fillStyle = "#AAA";
-            context.fillRect(0, 0, canvas.width, canvas.height);
-
-            var data = canvas.toDataURL('image/png');
-            photo.setAttribute('src', data);
-        }
-
-        function takepicture() {
-            var context = canvas.getContext('2d');
-            if (width && height) {
-                canvas.width = width;
-                canvas.height = height;
-                context.drawImage(video, 0, 0, width, height);
-
-                var data = canvas.toDataURL('image/png');
-                photo.setAttribute('src', data);
-            } else {
-                clearphoto();
-            }
-        }
-
-        window.addEventListener('load', startup, false);
-    })();
-  </script>
-</body>
-</html> {% endcomment %}

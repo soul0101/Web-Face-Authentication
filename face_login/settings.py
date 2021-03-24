@@ -78,25 +78,28 @@ WSGI_APPLICATION = 'face_login.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-
-
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('DB_ENGINE', 'django.db.backends.postgresql_psycopg2'),
-        'NAME': os.environ.get('DB_DATABASE_NAME', os.path.join(BASE_DIR, 'db.sqlite3')),
-        'USER': os.environ.get('DB_USERNAME', 'user'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', 'password'),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3',
     }
 }
+
+
+# DATABASES = {
+    # 'default': {
+    #     'ENGINE': os.environ.get('DB_ENGINE', 'django.db.backends.postgresql_psycopg2'),
+    #     'NAME': os.environ.get('DB_DATABASE_NAME', os.path.join(BASE_DIR, 'db.sqlite3')),
+    #     # 'NAME': os.environ.get('DB_DATABASE_NAME', 'db.sqlite3'),
+    #     'USER': os.environ.get('DB_USERNAME', 'user'),
+    #     'PASSWORD': os.environ.get('DB_PASSWORD', 'password'),
+    #     'HOST': os.environ.get('DB_HOST', 'localhost'),
+    #     'PORT': os.environ.get('DB_PORT', '5432'),
+    # }
+
+#     'default': dj_database_url.config(default=config('DATABASE_URL'))
+
+# }
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)

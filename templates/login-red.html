@@ -9,44 +9,53 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel = "stylesheet" href = "{%static 'login.css'%}"> 
+    <link rel = "stylesheet" href = "{%static 'login-red.css'%}"> 
 
     <title>Hello, world!</title>
   </head>
-  <body class="text-center" >
+  <body>
 
-    {% if messages %}
-      {% for message in messages %}
-      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-      {{ message }}
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close" >
-        <span aria-hidden="true">&times;</span>
-      </button>
+    <div id="contentarea">
+      <figure>
+      <div class="camera">
+          <video id="video">Video stream not available.</video>
       </div>
-    {% endfor %}
-    {% endif %} 
+      
+      <canvas id="canvas"></canvas>
+      <div class="output">
+          <img id="photo" alt="The screen capture will appear in this box."> 
+      </div>
+      </figure>
+    </div>
 
-    <form id = "myForm" class="form-signin" action="/login" method="post" autocomplete = "off">
-      {% csrf_token %}
-      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-      <label for="username" class="sr-only">Username</label>
-      <input type="text" id="username" name = "username" class="form-control" placeholder="Username" required autofocus>
-      <label for="psw" class="sr-only">Password</label>
-      <input type="password" id="psw" name = "psw" class="form-control" placeholder="Password" required>
-      <div class="checkbox mb-3">
-        <a href = "/sign_up">Haven't Registered?</a>
-      </div>
-      <label for="input_face"></label>
-      <input type="hidden" accept="image/png" name="input_face" id="input_face">
-      {% comment %} <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button> {% endcomment %}
-    <div class = "cam">
-      <video id="video">Video stream not available.</video>      
-      <button class="btn btn-lg btn-primary btn-block" id = "startbutton">Sign in</button>
-    <div>
-    
-    
+    <div><button id="startbutton">Take photo</button></div>
+
+
+    <form action="/login" method="post" id = "myForm">
+    {% csrf_token %}
+
+    <div class="container">
+        <label for="username"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="username" required>
+
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="psw" required>
+
+        <button type="submit">Login</button>
+
+        <label>
+        <input type="checkbox" checked="checked" name="remember"> Remember me
+        </label>
+
+        <label for="input_face"></label>
+        <input type="hidden" accept="image/png" name="input_face" id="input_face">
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+        <button type="button" class="cancelbtn">Cancel</button>
+        <span class="psw">Forgot <a href="#">password?</a></span>
+    </div>
     </form>
-    
 
 
 
@@ -55,17 +64,20 @@
       /* JS comes here */
       (function() {
 
-          var width = 340; // We will scale the photo width to this
+          var width = 320; // We will scale the photo width to this
           var height = 0; // This will be computed based on the input stream
 
           var streaming = false;
 
           var video = null;
-          var canvas = document.createElement('canvas');
+          var canvas = null;
+          var photo = null;
           var startbutton = null;
 
           function startup() {
               video = document.getElementById('video');
+              canvas = document.getElementById('canvas');
+              photo = document.getElementById('photo');
               startbutton = document.getElementById('startbutton');
 
               navigator.mediaDevices.getUserMedia({
@@ -97,6 +109,7 @@
               }, false);
 
               startbutton.addEventListener('click', function(ev) {
+                  video.srcObject.getVideoTracks().forEach(track => track.stop());
                   takepicture();
                   ev.preventDefault();
               }, false);
@@ -109,6 +122,7 @@
               var context = canvas.getContext('2d');
               context.fillStyle = "#AAA";
               context.fillRect(0, 0, canvas.width, canvas.height);
+
               var data = canvas.toDataURL('image/png');
               photo.setAttribute('src', data);
           }
@@ -121,6 +135,7 @@
                   context.drawImage(video, 0, 0, width, height);
 
                   var data = canvas.toDataURL('image/png');
+                  photo.setAttribute('src', data);
                   var inp = canvas.toDataURL("image/png").split(';base64,')[1];
                   document.getElementById("input_face").setAttribute('value', inp);
                   document.getElementById("myForm").submit();

@@ -1,4 +1,11 @@
 * {box-sizing: border-box}
+  /* body {
+    background: url('https://source.unsplash.com/random/1920x1080') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+  } */
 
 /* Full-width input fields */
   .close span{ float:right}
@@ -104,6 +111,7 @@ button:hover {
     position: relative;
     margin-left: auto;
     margin-right: auto;
+    width: 10%;
     bottom: 36px;
     padding: 5px;
     background-color: #6a67ce;
