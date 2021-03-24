@@ -7,23 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel = "stylesheet" href = "{%static 'welcome.css'%}">     
+    <link rel = "stylesheet" href = "{%static 'index.css'%}">     
     <title>Welcome</title>
   </head>
   <body>
  
     <div id="header">
-    
       <div class = "creds">
              Made by- Chirag Hegde
       </div>
 
-      <div class = "myCanvas" id="particle-canvas"></div>
+      <div class = "myCanvas" id="particle-canvas"></div>      
+       
       <div class="container">
         <h1>Welcome {{user.username}}</h1>
-        <p>Hope you had a great time looking around!</p>
+        <p>Face-Login-System</p>
         <div class="clearfix">
-        <button type="button" class="logout" onclick = "location.href= 'logout'">Log Out</button>
+        <button type="button" class="Registration" onclick = "location.href= 'sign_up'">Register</button>
+        <button type="button" class="Log In" onclick = "location.href= 'login'">Sign In</button>
+        
       </div>  
       </div>
     </div>
@@ -35,10 +37,10 @@
 
     var canvasDiv = document.getElementById('particle-canvas');
     var options = {
-      particleColor: '#888',
-      background: '#000',
+      particleColor: '#999',
+      background: '#00022e',
       interactive: true,
-      speed: 'medium',
+      speed: 'slow',
       density: 'high'
     };
     var particleCanvas = new ParticleNetwork(canvasDiv, options);

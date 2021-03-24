@@ -12,8 +12,7 @@ from register.models import UserProfile
 from .face import get_FE, face_detect
 
 def index(request):
-    messages.success(request, 'Please Sign-up')
-    return render(request, 'sign_up.html')
+    return render(request, 'index.html')
     
 def sign_up(request):
     if request.method == "POST":
