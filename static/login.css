@@ -69,5 +69,20 @@ body {
 }
 
 .cam{
-    display:flex;
+  display: block;
+  clear:both;
+}
+
+#pasw1{
+  display:none;
+}
+
+#pasw1.show{
+  display:block;
+}
+.wrapper{
+  margin-left:auto;
+  margin-right:auto;
+  height:auto; 
+  width:auto;
 }

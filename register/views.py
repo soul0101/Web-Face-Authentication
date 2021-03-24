@@ -31,7 +31,7 @@ def sign_up(request):
         if(isFace):
             encoding = json.dumps(encoding.tolist())
             user = User.objects.create_user(username = username, password = password1)
-            user_profile = UserProfile.objects.create(user = user, face_data = encoding)
+            UserProfile.objects.create(user = user, face_data = encoding)
             messages.success(request, 'Profile created succesfully!')
             return redirect("/login")
         
@@ -49,13 +49,25 @@ def loginUser(request):
         password = request.POST.get('psw')
         face_input = request.POST.get('input_face')
 
-        print(username, password)
+        valid = False
 
-        # print(username, password)
-        user = authenticate(username = username, password = password)
+        if password:
+            user = authenticate(username = username, password = password)
+            print(user)
+            if user is not None:
+                login(request, user)
+                return redirect("welcome")
+            else:
+                messages.error(request, 'Invalid Credentials. Try again.', extra_tags='danger')
+                return render(request, 'login.html')
 
-        if user is not None:
-
+        else:
+            userQuery = User.objects.filter(username=username)
+            if userQuery.exists():
+                user = userQuery[0]
+                valid = True
+        
+        if valid:
             gold_face = np.array(json.loads(user.user_profile.face_data))
             isFace, check_face = get_FE(face_input)
 

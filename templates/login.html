@@ -10,6 +10,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel = "stylesheet" href = "{%static 'login.css'%}"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <title>Hello, world!</title>
   </head>
@@ -31,31 +32,44 @@
       <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
       <label for="username" class="sr-only">Username</label>
       <input type="text" id="username" name = "username" class="form-control" placeholder="Username" required autofocus>
-      <label for="psw" class="sr-only">Password</label>
-      <input type="password" id="psw" name = "psw" class="form-control" placeholder="Password" required>
       <div class="checkbox mb-3">
         <a href = "/sign_up">Haven't Registered?</a>
       </div>
       <label for="input_face"></label>
       <input type="hidden" accept="image/png" name="input_face" id="input_face">
       {% comment %} <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button> {% endcomment %}
-    <div class = "cam">
-      <video id="video">Video stream not available.</video>      
-      <button class="btn btn-lg btn-primary btn-block" id = "startbutton">Sign in</button>
-    <div>
-    
+      <div class = "wrapper">
+        <div class = "cam" id = "cam1">
+        <video id="video">Video stream not available.</video>      
+        <button class="btn btn-lg btn-primary btn-block" id = "startbutton">Sign in</button>
+        </div>
+        <div id = "pasw1" >
+        <label for="psw" class="sr-only">Password</label>
+        <input type="password" id="psw" name = "psw" class="form-control" placeholder="Password" required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        </div>
+      </div>
+    <a href="#" class="btn1">Want to login using password instead?</a>
     
     </form>
     
 
 
-
-
     <script>
+
+
+      $(document).ready(function(){
+        $("a.btn1").click(function(){
+          $("#pasw1").toggle();
+          $(".cam").toggle();
+        });
+      });
+    
+
       /* JS comes here */
       (function() {
 
-          var width = 340; // We will scale the photo width to this
+          var width = 300; // We will scale the photo width to this
           var height = 0; // This will be computed based on the input stream
 
           var streaming = false;
@@ -110,7 +124,6 @@
               context.fillStyle = "#AAA";
               context.fillRect(0, 0, canvas.width, canvas.height);
               var data = canvas.toDataURL('image/png');
-              photo.setAttribute('src', data);
           }
 
           function takepicture() {
@@ -134,8 +147,6 @@
     </script>
 
 
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>
