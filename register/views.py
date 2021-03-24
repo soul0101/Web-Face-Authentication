@@ -16,7 +16,7 @@ def index(request):
     
 def sign_up(request):
     if request.method == "POST":
-        username = request.POST.get('name')
+        username = request.POST.get('username')
         # username = request.POST.get('email')
         password1 = request.POST.get('psw')
         password2 = request.POST.get('psw-repeat')
