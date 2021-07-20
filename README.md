@@ -38,7 +38,7 @@
 ## About The Project
 ![Project-Title](https://fontmeme.com/permalink/210324/609738aab7b1c03de1e7223bccaccf76.png)
 
-* [Heroku Deployment](https://face-login0101.herokuapp.com)
+* [Heroku Deployment (Might take a little time to load up.)](https://face-login0101.herokuapp.com)
 
 This projects demonstrates a scenario where a user can login to a system using his Face. The user has to capture their face during the signup using a web-camera or 
 the inbuilt camera of their mobile phones from whcih the facial landmarks will be extracted and stored on the data base. <br>
@@ -83,9 +83,7 @@ Anaconda installed on your system if running locally.
    ```sh
    pip install -r requirements.txt
    ```
-
-
-
+  
 
 <!-- ROADMAP -->
 ## Roadmap
